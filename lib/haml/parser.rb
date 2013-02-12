@@ -71,7 +71,7 @@ module Haml
     #     foo.each do | bar |
     #       = bar
     #
-    BLOCK_WITH_SPACES = /do[\s]*\|[\s]*[^\|]*[\s]+\|\z/
+    BLOCK_WITH_SPACES = /do\s*\|\s*[^\|]*\s+\|\z/
 
     MID_BLOCK_KEYWORDS = %w[else elsif rescue ensure end when]
     START_BLOCK_KEYWORDS = %w[if begin case unless]
@@ -80,7 +80,7 @@ module Haml
     BLOCK_KEYWORD_REGEX = /^-?\s*(?:(#{MID_BLOCK_KEYWORDS.join('|')})|#{START_BLOCK_KEYWORD_REGEX.source})\b/
 
     # The Regex that matches a Doctype command.
-    DOCTYPE_REGEX = /(\d(?:\.\d)?)?[\s]*([a-z]*)\s*([^ ]+)?/i
+    DOCTYPE_REGEX = /(\d(?:\.\d)?)?\s*([a-z]*)\s*([^ ]+)?/i
 
     # The Regex that matches a literal string or symbol value
     LITERAL_VALUE_REGEX = /:(\w*)|(["'])((?![\\#]|\2).|\\.)*\2/
@@ -740,9 +740,7 @@ module Haml
     end
 
     def balance(*args)
-      res = Haml::Util.balance(*args)
-      return res if res
-      raise SyntaxError.new(Error.message(:unbalanced_brackets))
+      Haml::Util.balance(*args) or raise(SyntaxError.new(Error.message(:unbalanced_brackets)))
     end
 
     def block_opened?
