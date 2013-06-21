@@ -41,6 +41,7 @@ module ActionView
         if Haml::Helpers.block_is_haml?(block)
           #double assignment is to avoid warnings
           _hamlout = _hamlout = eval('_hamlout', block.binding) # Necessary since capture_haml checks _hamlout
+          flush_output_buffer if response
           value = nil
           buffer = capture_haml(*args) { value = yield(*args) }
           str =
