@@ -4,6 +4,12 @@ require "bundler/gem_tasks"
 
 task :default => :test
 
+task :test do
+  Dir.glob('test/**/*_test.rb').all? do |file|
+    sh(Gem.ruby, '-w', '-I/lib', '-Itest', file)
+  end || raise('Failures')
+end
+
 CLEAN.replace %w(pkg doc coverage .yardoc test/haml vendor)
 
 desc "Benchmark Haml against ERB. TIMES=n sets the number of runs, default is 1000."
