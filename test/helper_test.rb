@@ -70,10 +70,6 @@ HAML
     assert(proper_behavior)
   end
 
-  def test_action_view_included
-    assert(Haml::Helpers.action_view?)
-  end
-
   def test_capture_haml
     assert_equal(<<HTML, render(<<HAML))
 "<p>13</p>\\n"
@@ -361,7 +357,6 @@ MESSAGE
 
   def test_html_escape_non_string
     assert_equal('4.58', Haml::Helpers.html_escape(4.58))
-    assert_equal('4.58', Haml::Helpers.html_escape_without_haml_xss(4.58))
   end
 
   def test_escape_once
